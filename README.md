@@ -1,3 +1,12 @@
+
+# Projeto Prático.
+
+https://github.com/HugoSouza10/GithubFinder/issues/1#issue-1594118040
+
+
+
+
+
 # Questões Teóricas
 
 ## 1. O que é autocomplete, autofocus e required nos campos de input?
