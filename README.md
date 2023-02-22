@@ -33,6 +33,6 @@ Required:  *indica que um determinando campo de formulário é obrigatório para
 
 ## 4. Para integração com Github, o que é necessário?
 
-*Para integrar com o github precisamos fazer uma requisição para este endereço: https://api.github.com/users/'nome do usuário'. Não tem muito segredo, precisamos apenas criar uma variável com a base da url e fazer uma requisição async await para buscar essas informações do usuário. Lembrando que o nome do usuário tem que ser dinâmico.*
+*Para integrar com o github precisamos fazer uma requisição http para este endereço: https://api.github.com. Nesse caso podemos fazer uma requisição com diversas formas como XMLHttpRequest, fetch ou bibliotecas como axios.*
 
 
