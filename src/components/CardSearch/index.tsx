@@ -32,8 +32,14 @@ export const CardSearch = () => {
     }
 
 
-    const enviarEnter  = (e:KeyboardEvent) => {
-        if(e.key === 'Enter') {
+    const enviarButton  = (event:React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        solicitarDados();
+    }
+
+
+    const enviarEnter  = (event:KeyboardEvent) => {
+        if(event.key === 'Enter') {
             solicitarDados();
         }
     }
@@ -53,7 +59,7 @@ export const CardSearch = () => {
                             onKeyDown={enviarEnter} 
                             type="text" placeholder='Digite um usuário' autoFocus
                          />
-                        <button onClick={solicitarDados} type="submit">Enviar <span className="material-icons">send</span></button>
+                        <button onClick={enviarButton} type="submit">Enviar <span className="material-icons">send</span></button>
                    </C.SearchArea>
                 </C.ContainerSearch>
                 {loading &&
