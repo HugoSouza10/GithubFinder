@@ -1,10 +1,12 @@
 import * as C from './style';
+import {Props} from '../../types';
 
-type Props = {
-    userGit:any
+type PropsUserGit = {
+    userGit:Props
 }
 
-export const CardInfo = ({userGit}:Props) => {
+
+export const CardInfo = ({userGit}:PropsUserGit) => {
     return (
         <C.Container>
             <C.Avatar userGit={userGit}/>

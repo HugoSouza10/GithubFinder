@@ -23,7 +23,7 @@ export const AreaSearch = styled.div`
     flex-direction: column;
 `;
 
-export const ContainerSearch = styled.div`
+export const ContainerSearch = styled.form`
     background-color: #2b3566;
     padding: 20px 40px;
     border-radius: 10px;
