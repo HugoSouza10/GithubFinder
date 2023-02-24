@@ -4,31 +4,38 @@ import { Loading } from '../Loading';
 import { gitFetch } from '../../api/index';
 import { CardInfo } from '../CardInfo';
 import { Props } from '../../types';
+import {useGitContext, UserGitAction } from '../../contexts/ContextUseGIt';
 
 
 export const CardSearch = () => {
-
-
+    const { state, dispatch } = useGitContext();
     const [loading, setLoading] = useState<boolean>(false);
-    const [nameSearch, setnameSearch] = useState<string>('');
     const [userGit, setuserGit] = useState<Props>();
 
 
     const handdleNameSearch = (e:ChangeEvent<HTMLInputElement>) => {
-        setnameSearch(e.target.value);
-        console.log(nameSearch);
+        dispatch({
+            type: UserGitAction.setNameSearch,
+            payload: e.target.value
+        });
+
+        console.log(state.nameSearch)
+
+       
     }
 
 
     const solicitarDados = async () => {
-        if(nameSearch.length > 3) {
-            setLoading(true);
-            setuserGit(await gitFetch(nameSearch));
-            setLoading(false);
+        if(state.nameSearch.length > 3) {
+            dispatch({ type: UserGitAction.setLoading,payload: true});
+            setuserGit(await gitFetch(state.nameSearch));
+            dispatch({ type: UserGitAction.setLoading,payload: false});
             console.log(userGit);
         } else {
             alert('Opa, por favor digite alguma coisa!');
         }
+
+        console.log(state.loading)
     }
 
 
@@ -54,15 +61,18 @@ export const CardSearch = () => {
                     <p>Conheça seus melhores repositórios</p>
                    <C.SearchArea>
                         <input 
+                            value={state.nameSearch}
                             onChange={handdleNameSearch}
-                            disabled={loading} 
+                            disabled={loading}
                             onKeyDown={enviarEnter} 
-                            type="text" placeholder='Digite um usuário' autoFocus
+                            type="text"
+                            placeholder='Digite um usuário' 
+                            autoFocus
                          />
                         <button onClick={enviarButton} type="submit">Enviar <span className="material-icons">send</span></button>
                    </C.SearchArea>
                 </C.ContainerSearch>
-                {loading &&
+                {state.loading &&
                     <Loading/>
                 }
 
