@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 type Props = {
-    userGit:any
+    avatar_url:string
 }
-
 
 
 export const Container = styled.div`
@@ -58,7 +57,7 @@ export const Avatar = styled.div<Props>`
     border: 3px solid #4ed9c8;
     margin-top: 30px;
     margin: auto;
-    background-image: url(${Props=>Props.userGit.avatar_url});
+    background-image: url(${Props=>Props.avatar_url});
     background-repeat: no-repeat;
     background-size: cover;
     margin:30px auto 30px;

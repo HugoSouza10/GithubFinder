@@ -1,9 +1,7 @@
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import {KeyboardEvent } from 'react';
 import * as C from './style';
 import { Loading } from '../Loading';
-import { gitFetch } from '../../api/index';
 import { CardInfo } from '../CardInfo';
-import { Props } from '../../types';
 import {useGitContext, UserGitAction } from '../../contexts/ContextUseGIt';
 
 
@@ -17,7 +15,6 @@ export const CardSearch = () => {
         });
     }
 
-
     const solicitarDados = async () => {
         if(state.nameSearch.length > 3) {
             dispatch({ type: UserGitAction.setLoading,payload: true});
@@ -30,20 +27,16 @@ export const CardSearch = () => {
 
     }
 
-
     const enviarButton  = (event:React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         solicitarDados();
-
     }
-
 
     const enviarEnter  = (event:KeyboardEvent) => {
         if(event.key === 'Enter') {
             solicitarDados();
         }
     }
-
 
     return(
         <C.Container>
@@ -69,7 +62,7 @@ export const CardSearch = () => {
                     <Loading/>
                 }
 
-                {data?.id &&
+                {data.id &&
                     <CardInfo/>
                 }
                
