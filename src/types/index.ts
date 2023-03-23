@@ -5,5 +5,5 @@ export type Props = {
         following: number,
         location: string,
         name: String,
-        id?:number,
+        id:number | undefined,
 }

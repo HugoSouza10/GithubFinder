@@ -1,20 +1,22 @@
 import * as C from './style';
 import {Props} from '../../types';
+import {useGitContext, UserGitAction } from '../../contexts/ContextUseGIt';
 
 type PropsUserGit = {
     userGit:Props
 }
 
 
-export const CardInfo = ({userGit}:PropsUserGit) => {
+export const CardInfo = () => {
+    const {data} = useGitContext();
     return (
         <C.Container>
-            <C.Avatar userGit={userGit}/>
-            <C.Name>{userGit.name}</C.Name>
-            <p>{userGit.bio}</p>
+            <C.Avatar userGit={data?.avatar_url}/>
+            <C.Name>{data?.name}</C.Name>
+            <p>{data?.bio}</p>
             <C.ContainerLocation>
 
-            {userGit.location != null &&
+            {data?.location != null &&
                 <svg fill="#58c5c4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
                     width="20px" height="20px" viewBox="0 0 395.71 395.71"
                     >
@@ -28,21 +30,21 @@ export const CardInfo = ({userGit}:PropsUserGit) => {
             }
               
                
-            <span>{userGit.location}</span>
+            <span>{data?.location}</span>
               
             </C.ContainerLocation>
             <C.ContainerFollowers>
                 <C.Followers>
                     <span>Seguidores:</span>
                     <C.ButtonGreen>
-                        {userGit.followers}
+                        {data?.followers}
                     </C.ButtonGreen>
                 </C.Followers>
                 <C.Divisor/>
                 <C.Following>
                     <span>Seguindo:</span>
                     <C.ButtonGreen>
-                        {userGit.following}
+                        {data?.following}
                     </C.ButtonGreen>
                 </C.Following>
             </C.ContainerFollowers>

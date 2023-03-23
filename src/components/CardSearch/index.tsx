@@ -8,40 +8,33 @@ import {useGitContext, UserGitAction } from '../../contexts/ContextUseGIt';
 
 
 export const CardSearch = () => {
-    const { state, dispatch } = useGitContext();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [userGit, setuserGit] = useState<Props>();
+    const { state, dispatch, data, fetchUserGit } = useGitContext();
 
-
-    const handdleNameSearch = (e:ChangeEvent<HTMLInputElement>) => {
+    const handdleNameSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
         dispatch({
             type: UserGitAction.setNameSearch,
             payload: e.target.value
         });
-
-        console.log(state.nameSearch)
-
-       
     }
 
 
     const solicitarDados = async () => {
         if(state.nameSearch.length > 3) {
             dispatch({ type: UserGitAction.setLoading,payload: true});
-            setuserGit(await gitFetch(state.nameSearch));
+            await fetchUserGit();
             dispatch({ type: UserGitAction.setLoading,payload: false});
-            console.log(userGit);
+
         } else {
             alert('Opa, por favor digite alguma coisa!');
         }
 
-        console.log(state.loading)
     }
 
 
     const enviarButton  = (event:React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         solicitarDados();
+
     }
 
 
@@ -61,9 +54,9 @@ export const CardSearch = () => {
                     <p>Conheça seus melhores repositórios</p>
                    <C.SearchArea>
                         <input 
-                            value={state.nameSearch}
                             onChange={handdleNameSearch}
-                            disabled={loading}
+                            value={state.nameSearch}
+                            disabled={state.loading}
                             onKeyDown={enviarEnter} 
                             type="text"
                             placeholder='Digite um usuário' 
@@ -76,8 +69,8 @@ export const CardSearch = () => {
                     <Loading/>
                 }
 
-                {userGit?.id &&
-                    <CardInfo userGit={userGit}/>
+                {data?.id &&
+                    <CardInfo/>
                 }
                
             </C.AreaSearch>
