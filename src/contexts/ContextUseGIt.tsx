@@ -87,22 +87,25 @@ const useGitReducer = (state:State, action:Action) => {
 //Provider
 
 export const UseGitProvider  = ({children}:UseGitProviderProps) => {
-    const [state, dispatch ] = useReducer(useGitReducer, initialData);
-    const [data, setData] = useState<Data>(initialResponse);
+        const [state, dispatch ] = useReducer(useGitReducer, initialData);
+        const [data, setData] = useState<Data>(initialResponse);
 
-    const API_BASE = 'https://api.github.com';
-    const fetchUserGit = async () => {
-        const response = await fetch(`${API_BASE}/users/${state.nameSearch}`);
-        setData(await response.json());
-    }
+        const API_BASE = 'https://api.github.com';
+        const fetchUserGit = async () => {
+            state.loading = true;
+            const response = await fetch(`${API_BASE}/users/${state.nameSearch}`);
+            setData (await response.json()); 
+            state.loading = false;  
+        }
 
-    const value = {state, dispatch, data, fetchUserGit};
+        const value = {state, dispatch, data, fetchUserGit};
+        console.log(data)
 
-    return (
-        <UseGitContext.Provider value={value}>
-            {children}
-        </UseGitContext.Provider>
-    )
+        return (
+            <UseGitContext.Provider value={value}>
+                {children}
+            </UseGitContext.Provider>
+        )
 }
 
 

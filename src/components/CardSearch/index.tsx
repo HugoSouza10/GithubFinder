@@ -15,11 +15,9 @@ export const CardSearch = () => {
         });
     }
 
-    const solicitarDados = async () => {
+    const solicitarDados = () => {
         if(state.nameSearch.length > 3) {
-            dispatch({ type: UserGitAction.setLoading,payload: true});
-            await fetchUserGit();
-            dispatch({ type: UserGitAction.setLoading,payload: false});
+            fetchUserGit();
 
         } else {
             alert('Opa, por favor digite alguma coisa!');
