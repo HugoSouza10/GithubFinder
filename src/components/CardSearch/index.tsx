@@ -6,34 +6,37 @@ import {useGitContext, UserGitAction } from '../../contexts/ContextUseGIt';
 
 
 export const CardSearch = () => {
-    const { state, dispatch, data, fetchUserGit } = useGitContext();
+    const { state, dispatch, data, ApiService } = useGitContext();
 
-    const handdleNameSearch = (e:React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: UserGitAction.setNameSearch,
-            payload: e.target.value
-        });
-    }
-
-    const solicitarDados = () => {
+    const requestData = () => {
         if(state.nameSearch.length > 3) {
-            fetchUserGit();
+            ApiService.get();
 
         } else {
             alert('Opa, por favor digite alguma coisa!');
         }
-
     }
 
-    const enviarButton  = (event:React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        solicitarDados();
-    }
 
-    const enviarEnter  = (event:KeyboardEvent) => {
-        if(event.key === 'Enter') {
-            solicitarDados();
+    const userSearchHandlers = {
+        handdleNameSearch: (e:React.ChangeEvent<HTMLInputElement>) => {
+            dispatch({
+                type: UserGitAction.setNameSearch,
+                payload: e.target.value
+            });
+        },
+
+        enviarButton: (event:React.MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
+            requestData();
+        },
+
+        enviarEnter: (event:KeyboardEvent) => {
+            if(event.key === 'Enter') {
+                requestData();
+            }
         }
+
     }
 
     return(
@@ -45,15 +48,15 @@ export const CardSearch = () => {
                     <p>Conheça seus melhores repositórios</p>
                    <C.SearchArea>
                         <input 
-                            onChange={handdleNameSearch}
+                            onChange={userSearchHandlers.handdleNameSearch}
                             value={state.nameSearch}
                             disabled={state.loading}
-                            onKeyDown={enviarEnter} 
+                            onKeyDown={userSearchHandlers.enviarEnter} 
                             type="text"
                             placeholder='Digite um usuário' 
                             autoFocus
                          />
-                        <button onClick={enviarButton} type="submit">Enviar <span className="material-icons">send</span></button>
+                        <button onClick={userSearchHandlers.enviarButton} type="submit">Enviar <span className="material-icons">send</span></button>
                    </C.SearchArea>
                 </C.ContainerSearch>
                 {state.loading &&

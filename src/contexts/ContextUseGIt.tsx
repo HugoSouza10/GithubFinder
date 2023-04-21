@@ -1,8 +1,6 @@
 //Context, reducer, provider, hook
 import { createContext, useState, ReactNode, useContext, useReducer } from "react";
 
-
-
 //Types
 
 type State = {
@@ -26,10 +24,14 @@ type Action = {
     payload: any;
 }
 
+type ApiService = {
+    get: () => Promise<void>;
+}
+
 type ContextType = {
     data: Data;
     state: State;
-    fetchUserGit:()=> void;
+    ApiService:ApiService;
     dispatch: (action:Action) => void
 }
 
@@ -49,7 +51,7 @@ const initialResponse: Data = {
     following: 0,
     location: '',
     name: '',
-    id:0,
+    id: 0,
 }
 
 //Dados ininiciais do state
@@ -90,16 +92,40 @@ export const UseGitProvider  = ({children}:UseGitProviderProps) => {
         const [state, dispatch ] = useReducer(useGitReducer, initialData);
         const [data, setData] = useState<Data>(initialResponse);
 
-        const API_BASE = 'https://api.github.com';
-        const fetchUserGit = async () => {
-            state.loading = true;
-            const response = await fetch(`${API_BASE}/users/${state.nameSearch}`);
-            setData (await response.json()); 
-            state.loading = false;  
+        const updateLoadding = (loadding:boolean) => {
+            dispatch({
+                type: UserGitAction.setLoading,
+                payload: loadding
+            });
         }
 
-        const value = {state, dispatch, data, fetchUserGit};
-        console.log(data)
+        const API_BASE = 'https://api.github.com';
+
+        const ApiService = {
+            get: async () => {
+              try {
+                updateLoadding(true);
+                const response = await fetch(`${API_BASE}/users/${state.nameSearch}`);
+          
+                if (!response.ok) {
+                  throw new Error('Erro ao buscar usuário');
+                }
+          
+                const data = await response.json();
+                setData(data);
+              } catch (error) {
+                console.error(error);
+                alert('Erro ao buscar usuário');
+              } finally {
+                updateLoadding(false);
+              }
+            }
+          }
+         
+
+          console.log(data)
+        
+        const value = {state, dispatch, data, ApiService};
 
         return (
             <UseGitContext.Provider value={value}>
